@@ -322,6 +322,19 @@ public class RaggedArrayList<E> implements Iterable<E> {
             l2Array.items[whereToAdd.level2Index] = item;
             l2Array.numUsed++;//because common sense
         }
+        
+        // If number of used slots in l1Array has reached close to length,
+        // double size of l1Array
+        if (l1NumUsed == l1Array.length) {
+            Object[] longL1Array = new Object[l1Array.length * 2];
+            
+            for (int i = 0; i < l1NumUsed; i++) {
+                longL1Array[i] = l1Array[i];
+            }
+            
+            l1Array = longL1Array;
+        }
+        
         return true;
     }
 
