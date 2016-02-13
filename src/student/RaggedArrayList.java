@@ -312,6 +312,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
                     longL2Array.items[i] = l2Array.items[i];
                 }
                 
+                longL2Array.numUsed = l2Array.numUsed;
                 l1Array[whereToAdd.level1Index] = longL2Array;
             }
             else{
