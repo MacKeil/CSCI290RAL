@@ -325,28 +325,6 @@ public class RaggedArrayList<E> implements Iterable<E> {
             }
             else{
                 //we're gonna split it
-                L2Array firstHalfL2Array = new L2Array(l2Array.numUsed);
-                L2Array secondHalfL2Array = new L2Array(l2Array.numUsed);
-                int tempNumUsedHalved = l2Array.numUsed / 2; // What if it's odd
-                
-                for (int i = 0; i < l2Array.numUsed; i++) {
-                    if (i < tempNumUsedHalved)
-                        firstHalfL2Array.items[i] = l2Array.items[i];
-                    else
-                        secondHalfL2Array.items[i - tempNumUsedHalved] = l2Array.items[i];
-                }
-                
-                firstHalfL2Array.numUsed = tempNumUsedHalved; // If it's odd, this could be an issue
-                secondHalfL2Array.numUsed = tempNumUsedHalved; // Ditto ^
-                l1Array[whereToAdd.level1Index] = firstHalfL2Array;
-                
-                for (int i = l1Array.length - 1; i > whereToAdd.level1Index + 1; i--) {
-                    l1Array[i] = l1Array[i - 1];
-                }
-                
-                l1Array[whereToAdd.level1Index + 1] = secondHalfL2Array;
-                l2Array.items[whereToAdd.level2Index] = item;
-                l2Array.numUsed++;
             }
         }
         else{
