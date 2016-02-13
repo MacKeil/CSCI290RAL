@@ -306,25 +306,37 @@ public class RaggedArrayList<E> implements Iterable<E> {
         if(l2Array.numUsed == l2Array.items.length - 1){
             if(l2Array.items.length < l1Array.length){
                 //we're gonna double it
+                // We're movin' on up
+                // @nicolasedesjardins
+                
+                // The new and improved L2Array
                 L2Array longL2Array = new L2Array(l2Array.items.length * 2);
                 
+                // Copy over the previous entries
                 for (int i = 0; i < l2Array.numUsed; i++) {
                     longL2Array.items[i] = l2Array.items[i];
                 }
                 
+                // Copy over the previous fields
                 longL2Array.numUsed = l2Array.numUsed;
+                // Replace the old memory address with new
                 l2Array = longL2Array;
+                // Re-assign entry in level1 to new memory address
                 l1Array[whereToAdd.level1Index] = l2Array;
                 
+                // Make space for the new item, where it should be
                 for(int i = l2Array.numUsed; i >= whereToAdd.level2Index; i--){
                     l2Array.items[i + 1] = l2Array.items[i];
                 }
                 
+                // Add item
                 l2Array.items[whereToAdd.level2Index] = item;
+                // Increment number of used slots
                 l2Array.numUsed++;
             }
             else{
                 //we're gonna split it
+                // We're getting a divorce
             }
         }
         else{
@@ -341,6 +353,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
         
         // If number of used slots in l1Array has reached close to length,
         // double size of l1Array
+        // @nicolasedesjardins
         if (l1NumUsed == l1Array.length) {
             Object[] longL1Array = new Object[l1Array.length * 2];
             
