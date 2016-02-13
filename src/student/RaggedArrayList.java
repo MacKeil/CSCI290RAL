@@ -306,6 +306,13 @@ public class RaggedArrayList<E> implements Iterable<E> {
         if(l2Array.numUsed == l2Array.items.length - 1){
             if(l2Array.items.length < l1Array.length){
                 //we're gonna double it
+                L2Array longL2Array = new L2Array(l2Array.items.length * 2);
+                
+                for (int i = 0; i < l2Array.items.length; i++) {
+                    longL2Array.items[i] = l2Array.items[i];
+                }
+                
+                l1Array[whereToAdd.level1Index] = longL2Array;
             }
             else{
                 //we're gonna split it
