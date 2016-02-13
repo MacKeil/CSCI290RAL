@@ -305,7 +305,6 @@ public class RaggedArrayList<E> implements Iterable<E> {
         //if the only item left is the last one go to contingency
         if(l2Array.numUsed == l2Array.items.length - 1){
             if(l2Array.items.length < l1Array.length){
-                System.out.println("IF1IF1");
                 //we're gonna double it
                 L2Array longL2Array = new L2Array(l2Array.items.length * 2);
                 
@@ -325,7 +324,6 @@ public class RaggedArrayList<E> implements Iterable<E> {
                 l2Array.numUsed++;
             }
             else{
-                System.out.println("IF1EL2");
                 //we're gonna split it
                 L2Array firstHalfL2Array = new L2Array(l2Array.numUsed);
                 L2Array secondHalfL2Array = new L2Array(l2Array.numUsed);
@@ -347,9 +345,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
                 }
                 
                 l1Array[whereToAdd.level1Index + 1] = secondHalfL2Array;
-                System.out.println("adding " + item.toString());
                 l2Array.items[whereToAdd.level2Index] = item;
-                System.out.println("l2Array.numUsed: " + l2Array.numUsed);
                 l2Array.numUsed++;
             }
         }
