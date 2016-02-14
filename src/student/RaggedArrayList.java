@@ -336,8 +336,12 @@ public class RaggedArrayList<E> implements Iterable<E> {
             }
             else{
                 /** note split still needs work
-                * not sure why but it doesn't quite split properly
-                * will look at it tomorrow 14 Feb 2016
+                * Found out why I'm dumb.
+                * the arrays are only set up to split at the half way mark
+                * with no reference to which one might end up longer after 
+                * the add
+                * will fix this soon
+                * looked at on 14 Feb 2016 @ 1250
                 * @zachary MacKeil
                 */
                 //we're gonna split it
@@ -345,6 +349,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
                 int splitWhereToAdd;//intialize an index to deal with the split
                 //create a new L2Array to be the second half
                 L2Array splitArray = new L2Array(l2Array.items.length);
+                //TODO need to make the split dynamic so they split evenly
                 //don't reinvent the wheel
                 System.arraycopy(l2Array.items, (l2Array.numUsed / 2), 
                         splitArray.items, 0, (l2Array.numUsed / 2));
