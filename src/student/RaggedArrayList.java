@@ -335,8 +335,59 @@ public class RaggedArrayList<E> implements Iterable<E> {
                 l2Array.numUsed++;
             }
             else{
+                /** note split still needs work
+                * not sure why but it doesn't quite split properly
+                * will look at it tomorrow 14 Feb 2016
+                * @zachary MacKeil
+                */
                 //we're gonna split it
                 // We're getting a divorce
+                int splitWhereToAdd;//intialize an index to deal with the split
+                //create a new L2Array to be the second half
+                L2Array splitArray = new L2Array(l2Array.items.length);
+                //don't reinvent the wheel
+                System.arraycopy(l2Array.items, (l2Array.numUsed / 2), 
+                        splitArray.items, 0, (l2Array.numUsed / 2));
+                //fill all unused portions with null
+                Arrays.fill(l2Array.items, (l2Array.numUsed / 2),
+                        l2Array.items.length, null);
+                //on both arrays
+                Arrays.fill(splitArray.items, (l2Array.numUsed / 2),
+                        splitArray.items.length, null);
+                //the numUsed is no longer correct so we change it to make sense
+                l2Array.numUsed /= 2;
+                //both have the same number used
+                //no matter what if we split we would have to be at an even number
+                splitArray.numUsed = l2Array.numUsed;
+                //if we would have inserted it in the later half of the array
+                if(whereToAdd.level2Index > l2Array.numUsed){
+                    //our new index is the adjusted index
+                    splitWhereToAdd = whereToAdd.level2Index - l2Array.numUsed;
+                    //loop backwards to grow our array
+                    for(int g = splitArray.numUsed; g >= splitWhereToAdd; g--){
+                        splitArray.items[g + 1] = splitArray.items[g];
+                    }
+                    //add the item in so we can have this function make sense
+                    splitArray.items[splitWhereToAdd] = item;
+                }
+                //we would have inserted it in the former half of the array
+                else{
+                    //our new index is the adjusted index
+                    splitWhereToAdd = l2Array.numUsed - whereToAdd.level2Index;
+                    for(int h = l2Array.numUsed; h >= splitWhereToAdd; h--){
+                        l2Array.items[h + 1] = l2Array.items[h];
+                    }
+                    l2Array.items[splitWhereToAdd] = item;
+                }
+                //grow the l1Array to accomodate the new L2Array
+                for(int i = l1NumUsed; i > whereToAdd.level1Index; i--){
+                    l1Array[i + 1] = l1Array[i];
+                }
+                //add the new L2Array to the l1Array
+                l1Array[whereToAdd.level1Index + 1] = splitArray;
+                //update the original
+                l1Array[whereToAdd.level1Index] = l2Array;
+                l1NumUsed++;
             }
         }
         else{
