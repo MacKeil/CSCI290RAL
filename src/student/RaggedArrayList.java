@@ -31,7 +31,14 @@ import java.util.Scanner;
  * -implemented ListLoc moveToNext()
  * -implemented ListLoc findFront(E item) tested and found it works
  * -implemented ListLoc findEnd(E item) tested it and found it works
- * -Commented all code
+ * -Commented all of his code
+ * -Created basic structure of add()
+ * -implemented split section of add()
+ * 
+ * Modified by Nicolas Desjardins 2016
+ * -added comments to his code
+ * -implemented double section of add()
+ * -implemented double l1Array section of add()
  * 
  * @param <E>
  */
