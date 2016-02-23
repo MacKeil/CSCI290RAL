@@ -171,5 +171,17 @@ public class Song implements Comparable<Song> {
         System.out.println("Song1 vs Song3 = " + s1.compareTo(s3));
         System.out.println("Song3 vs Song1 = " + s3.compareTo(s1));
         System.out.println("Song1 vs Song1 = " + s1.compareTo(s1));
+        
+        int x = 4;
+        int sum = 0;
+        int counter = 0;
+        while(sum < 10514){
+            sum += x-1;
+            ++counter;
+            if(counter == x - 1){
+                x *= 2;
+            }
+        }
+        System.out.println("worst columns: " + x + " sum is: " + sum);
     }
 }

@@ -34,6 +34,8 @@ import java.util.Scanner;
  * -Commented all of his code
  * -Created basic structure of add()
  * -implemented split section of add()
+ * -implemented contains()
+ * -implemented itr.next()
  * 
  * Modified by Nicolas Desjardins 2016
  * -added comments to his code
@@ -410,9 +412,17 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * @return 
      */
     public boolean contains(E item) {
-        // TO DO
-
-        return false;
+        //use findFront() to find the item, should it exist
+        ListLoc L = findFront(item);//reinventing the wheel is bad
+        //Create a L2Array to test against.
+        L2Array l2Array = (L2Array) l1Array[L.level1Index];
+        //if and only if (iff) findFront() returned the spot where the item 
+        //really is return true
+        if(l2Array.items[L.level2Index] == item){
+            return true;
+        }
+        //otherwise return false
+        return false;//The End
     }
 
     /**
@@ -472,7 +482,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
          * check if more items
          */
         public boolean hasNext() {
-            // TO DO
+            //TODO 1 line only
 
             return false;
         }
@@ -482,9 +492,19 @@ public class RaggedArrayList<E> implements Iterable<E> {
          * of list
          */
         public E next() {
-            // TO DO
-
-            throw new IndexOutOfBoundsException();
+            //attempt to move to the next spot
+            try{
+                //move to the next spot
+                loc.moveToNext();
+                //create the L2Array to pull from
+                L2Array l2Array = (L2Array) l1Array[loc.level2Index];
+                //return the item at the spot we said to.
+                return l2Array.items[loc.level2Index]; 
+            }
+            //should we end up outside where we wanted to be.
+            catch(IndexOutOfBoundsException e){
+                throw new IndexOutOfBoundsException();
+            }
         }
 
         /**
