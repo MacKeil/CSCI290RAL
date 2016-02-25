@@ -449,10 +449,36 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * @return the sublist
      */
     public RaggedArrayList<E> subList(E fromElement, E toElement) {
-        // TO DO
-
+        // Creat a ListLoc at the location for the front element
+        ListLoc L = findFront(fromElement);
+        //create a RaggedArrayList object
         RaggedArrayList<E> result = new RaggedArrayList<E>(comp);
-        return result;
+        //create a L2Array to pull things from
+        L2Array l2A = (L2Array) l1Array[L.level1Index];
+        //add the from element into our new sublist
+        result.add(l2A.items[L.level2Index]);
+        //as long as we aren't at the point where the to element is ...
+        while(!L.equals(findFront(toElement))){
+            //grow our l2index by one
+            L.level2Index++;
+            //if that spot holds a null value..
+            if(l2A.items[L.level2Index] == null){
+                //grow our l1index by one
+                L.level1Index++;
+                //reset our l2index
+                L.level2Index = 0;
+                //and re declare the l2Array
+                l2A = (L2Array) l1Array[L.level1Index];
+            }
+            //otherwise...
+            else{
+                //add the item at that spot into the new sublist
+                result.add(l2A.items[L.level2Index]);
+            }
+        }
+        //add the toElement into the new sublist
+        result.add(l2A.items[L.level2Index + 1]);
+        return result;//return with the new sublist
     }
 
     /**
@@ -486,9 +512,8 @@ public class RaggedArrayList<E> implements Iterable<E> {
         public boolean hasNext() {
             //TODO 1 line only
            L2Array l2 = (L2Array)l1Array[loc.level1Index];
-           //return (l2.items[loc.moveToNext()] != null);
-
-            return false;
+           return (loc.level2Index < l2.numUsed && loc.level1Index < l1NumUsed);
+           //return false;
         }
 
         /**
@@ -501,13 +526,18 @@ public class RaggedArrayList<E> implements Iterable<E> {
                 //move to the next spot
                 loc.moveToNext();
                 //create the L2Array to pull from
-                L2Array l2Array = (L2Array) l1Array[loc.level2Index];
+                L2Array l2Array = (L2Array) l1Array[loc.level1Index];
                 //return the item at the spot we said to.
-                return l2Array.items[loc.level2Index]; 
+                if(l2Array.items[loc.level2Index] != null){
+                    return l2Array.items[loc.level2Index]; 
+                }
+                else{
+                    return next();
+                }
             }
             //should we end up outside where we wanted to be.
             catch(IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException();
+                throw new IndexOutOfBoundsException("sent here from next");
             }
         }
 
