@@ -418,11 +418,13 @@ public class RaggedArrayList<E> implements Iterable<E> {
         L2Array l2Array = (L2Array) l1Array[L.level1Index];
         //if and only if (iff) findFront() returned the spot where the item 
         //really is return true
-        if(l2Array.items[L.level2Index] == item){
+        if(l2Array.items[L.level2Index].equals(item)){
             return true;
         }
-        //otherwise return false
-        return false;//The End
+        else{
+            //otherwise return false
+            return false;//The End
+        }
     }
 
     /**
@@ -483,6 +485,8 @@ public class RaggedArrayList<E> implements Iterable<E> {
          */
         public boolean hasNext() {
             //TODO 1 line only
+           L2Array l2 = (L2Array)l1Array[loc.level1Index];
+           //return (l2.items[loc.moveToNext()] != null);
 
             return false;
         }
