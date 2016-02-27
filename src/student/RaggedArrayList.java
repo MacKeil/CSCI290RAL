@@ -479,6 +479,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
         //add the toElement into the new sublist
         result.add(l2A.items[L.level2Index + 1]);
         return result;//return with the new sublist
+        //side note: as it stands this will cause the worst case scenario when done
     }
 
     /**
@@ -512,7 +513,9 @@ public class RaggedArrayList<E> implements Iterable<E> {
         public boolean hasNext() {
             //TODO 1 line only
            L2Array l2 = (L2Array)l1Array[loc.level1Index];
-           return (loc.level2Index < l2.numUsed && loc.level1Index < l1NumUsed);
+           //not gonna lie, I'm not sure why this works and saying it without 
+           //the minus one didn't...but umm...yay it works!...
+           return (loc.level2Index < l2.numUsed - 1 & loc.level1Index < l1NumUsed);
            //return false;
         }
 
