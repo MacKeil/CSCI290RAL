@@ -36,11 +36,17 @@ import java.util.Scanner;
  * -implemented split section of add()
  * -implemented contains()
  * -implemented itr.next()
+ * -shared implementation of hasNext()
+ * -implemented subList()
  * 
  * Modified by Nicolas Desjardins 2016
  * -added comments to his code
  * -implemented double section of add()
  * -implemented double l1Array section of add()
+ * 
+ * Modified by Mitchell Beaulieu 2016
+ * -fixed problem with contains using equals method instead of ==
+ * -shared implementation of hasNext()
  * 
  * @param <E>
  */
