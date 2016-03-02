@@ -440,9 +440,36 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * @return the filled in array
      */
     public E[] toArray(E[] a) {
-        // TO DO
+         // TO DO
+        //Creates an iterator and counter for the array being passed.
+        Itr current = new Itr();
+        int aCounter = 0;
+       
+        //Compares both the Length and type of the a array to see
+        //if it matches both the size and type of the l1array
+        if (a.length == this.size && Arrays.equals(a, l1Array) ) {
 
+            //Declare a temporary L2Array
+            L2Array l2;
+            //first level for loop for cycling through the L1Array
+            for (int i = 0; i < l1NumUsed; i++) {
+                //casts the L1Array to an L2Array
+                l2 = (L2Array) l1Array[i];
+                //Moves the Itr's ListLoc x value to the position indicated in the L1Array
+                current.loc.level1Index = i;
+                //second level for loop for cycling through the L2Array
+                for (int j = 0; j < l2.numUsed; j++) {
+                    //Moves the Itr's ListLoc y value to the position indicated in the L2Array
+                    current.loc.level2Index = j;
+                    //adds the item at current to the a array
+                        a[aCounter] = l2.items[j];
+                        //increments the aCounter
+                        aCounter++;                  
+                }
+            }
+        }
         return a;
+    
     }
 
     /**
