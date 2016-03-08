@@ -42,6 +42,7 @@ public class RALtester3 {
 
         System.out.println("TEST: contains(\"c\") ->" + ralist.contains("c"));
         System.out.println("TEST: contains(\"7\") ->" + ralist.contains("7"));
+        
 
         System.out.println("TEST: toArray");
         String[] a = new String[ralist.size()];
@@ -50,7 +51,7 @@ public class RALtester3 {
             System.out.print("[" + a[i] + "]");
         }
         System.out.println();
-
+        
         System.out.println("TEST: iterator");
         Iterator<String> itr = ralist.iterator();
         while (itr.hasNext()) {

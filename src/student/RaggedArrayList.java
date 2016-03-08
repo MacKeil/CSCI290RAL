@@ -194,14 +194,14 @@ public class RaggedArrayList<E> implements Iterable<E> {
         */
         public void moveToNext() {
             // create a L2Array to test level2Index against
-            RaggedArrayList.L2Array l2Array = (L2Array)l1Array[level1Index];
-            if(level2Index <= l2Array.numUsed){
+            L2Array l2Array = (L2Array)l1Array[level1Index];
+            if(level2Index < l2Array.numUsed){
                 //as long as we are still in used space for the l2Array step 
                 //through
                 level2Index++;
             }
-            else if(level2Index > l2Array.numUsed 
-                    && level1Index < l1Array.length){
+            else if(level2Index >= l2Array.numUsed 
+                    && level1Index < l1Array.length -1){
                 //go up one whole level because we reached the end of this one
                 level1Index++;
                 level2Index = 0;//start at the beginning of this level
@@ -447,10 +447,11 @@ public class RaggedArrayList<E> implements Iterable<E> {
        
         //Compares both the Length and type of the a array to see
         //if it matches both the size and type of the l1array
-        if (a.length == this.size && Arrays.equals(a, l1Array) ) {
-
+       // if (a.length == this.size && Arrays.equals(a, l1Array) ) {
+            ListLoc L = new ListLoc(0, 0);
             //Declare a temporary L2Array
-            L2Array l2;
+            L2Array l2 = (L2Array) l1Array[L.level1Index];
+            /*
             //first level for loop for cycling through the L1Array
             for (int i = 0; i < l1NumUsed; i++) {
                 //casts the L1Array to an L2Array
@@ -466,8 +467,12 @@ public class RaggedArrayList<E> implements Iterable<E> {
                         //increments the aCounter
                         aCounter++;                  
                 }
+            }*/
+            while(current.hasNext()){
+                a[aCounter] = current.next();
+                aCounter++;
             }
-        }
+        //}
         return a;
     
     }
@@ -544,12 +549,10 @@ public class RaggedArrayList<E> implements Iterable<E> {
          * check if more items
          */
         public boolean hasNext() {
-            //TODO 1 line only
-           L2Array l2 = (L2Array)l1Array[loc.level1Index];
-           //not gonna lie, I'm not sure why this works and saying it without 
-           //the minus one didn't...but umm...yay it works!...
-           return (loc.level2Index < l2.numUsed - 1 & loc.level1Index < l1NumUsed);
-           //return false;
+           
+           //technically this is only one line of code...an ugly line, but a line
+           return(((L2Array)l1Array[loc.level1Index]).items[loc.level2Index+1] != null ||
+                   l1Array[loc.level1Index+1] != null);
         }
 
         /**
@@ -557,24 +560,33 @@ public class RaggedArrayList<E> implements Iterable<E> {
          * of list
          */
         public E next() {
-            //attempt to move to the next spot
-            try{
-                //move to the next spot
-                loc.moveToNext();
-                //create the L2Array to pull from
-                L2Array l2Array = (L2Array) l1Array[loc.level1Index];
-                //return the item at the spot we said to.
-                if(l2Array.items[loc.level2Index] != null){
-                    return l2Array.items[loc.level2Index]; 
+            //Check that there is another spot past where we are
+            if(hasNext()){
+                //create something to hold our current item
+                E temp = ((L2Array) l1Array[loc.level1Index]).items[loc.level2Index];
+                //if we've got room on the current level just incriment l2index
+                if (((L2Array) l1Array[loc.level1Index]).items[loc.level2Index + 1] != null) {
+                    loc.level2Index++;
                 }
-                else{
-                    return next();
+                //if not.. 
+                else {
+                    //go up one level
+                    loc.level1Index++;
+                    //start level2 back at the beginning
+                    loc.level2Index = 0;
                 }
+                //return the value we started with
+                return temp;
             }
-            //should we end up outside where we wanted to be.
-            catch(IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException("sent here from next");
+            else if(!hasNext() && (((L2Array) l1Array[loc.level1Index]).items[loc.level2Index] != null)){
+                return ((L2Array) l1Array[loc.level1Index]).items[loc.level2Index+1];
             }
+            else{
+                //bad things happened so we threw an error
+                throw new NoSuchElementException();
+            }
+            
+            
         }
 
         /**
