@@ -43,6 +43,7 @@ import java.util.Scanner;
  * -added comments to his code
  * -implemented double section of add()
  * -implemented double l1Array section of add()
+ * -aided implementation of itr.next()
  * 
  * Modified by Mitchell Beaulieu 2016
  * -fixed problem with contains using equals method instead of ==
@@ -560,6 +561,8 @@ public class RaggedArrayList<E> implements Iterable<E> {
          * of list
          */
         public E next() {
+            //Aid given by @nicolasedesjardins
+            //method implementation changed in response to aid
             //Check that there is another spot past where we are
             if(hasNext()){
                 //create something to hold our current item
