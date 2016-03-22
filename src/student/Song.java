@@ -44,6 +44,17 @@ public class Song implements Comparable<Song> {
            
         }
     }
+    /**
+     * Title Comparator. Compares two Song objects, and counts the comparisons 
+     * made to do so
+     */
+    public static class CmpTitle extends CmpCnt implements Comparator<Song>{
+        public int compare(Song s1, Song s2){
+            cmpCnt++;//add to the count of times compared
+            //compare just the titles of the two songs
+            return s1.title.compareTo(s2.title);
+        }
+    }
     
     /**
      * Parameterized constructor

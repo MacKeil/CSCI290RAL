@@ -231,6 +231,9 @@ public class RaggedArrayList<E> implements Iterable<E> {
         // Declare a ListLoc at 0,0 to step through
         ListLoc Current = new ListLoc(0,0);
         //run through the lists and compare the largest value to our item
+        if (size == 0){
+            return Current;
+        }
         while(Current.level1Index < l1NumUsed -1
                 && comp.compare(item, (E) l2Array.items[l2Array.numUsed -1]) > 0){
             Current.level1Index++;//go to the next level and check that one
