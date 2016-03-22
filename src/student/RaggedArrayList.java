@@ -48,6 +48,7 @@ import java.util.Scanner;
  * Modified by Mitchell Beaulieu 2016
  * -fixed problem with contains using equals method instead of ==
  * -shared implementation of hasNext()
+ * -Began implementation of toArray()
  * 
  * @param <E>
  */
@@ -448,32 +449,13 @@ public class RaggedArrayList<E> implements Iterable<E> {
        
         //Compares both the Length and type of the a array to see
         //if it matches both the size and type of the l1array
-       // if (a.length == this.size && Arrays.equals(a, l1Array) ) {
-            ListLoc L = new ListLoc(0, 0);
-            //Declare a temporary L2Array
-            L2Array l2 = (L2Array) l1Array[L.level1Index];
-            /*
-            //first level for loop for cycling through the L1Array
-            for (int i = 0; i < l1NumUsed; i++) {
-                //casts the L1Array to an L2Array
-                l2 = (L2Array) l1Array[i];
-                //Moves the Itr's ListLoc x value to the position indicated in the L1Array
-                current.loc.level1Index = i;
-                //second level for loop for cycling through the L2Array
-                for (int j = 0; j < l2.numUsed; j++) {
-                    //Moves the Itr's ListLoc y value to the position indicated in the L2Array
-                    current.loc.level2Index = j;
-                    //adds the item at current to the a array
-                        a[aCounter] = l2.items[j];
-                        //increments the aCounter
-                        aCounter++;                  
-                }
-            }*/
+       if (a.length == this.size ) {
             while(current.hasNext()){
                 a[aCounter] = current.next();
                 aCounter++;
             }
-        //}
+           a[aCounter] = ((L2Array)l1Array[current.loc.level1Index]).items[current.loc.level2Index];
+        }
         return a;
     
     }
@@ -552,8 +534,10 @@ public class RaggedArrayList<E> implements Iterable<E> {
         public boolean hasNext() {
            
            //technically this is only one line of code...an ugly line, but a line
-           return(((L2Array)l1Array[loc.level1Index]).items[loc.level2Index+1] != null ||
-                   l1Array[loc.level1Index+1] != null);
+           //return(((L2Array)l1Array[loc.level1Index]).items[loc.level2Index +1] != null ||
+           //        l1Array[loc.level1Index+1] != null);
+           return (loc.level2Index < ((L2Array)l1Array[loc.level1Index]).numUsed -1 ||
+                   loc.level1Index<l1NumUsed -1);
         }
 
         /**
@@ -581,7 +565,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
                 //return the value we started with
                 return temp;
             }
-            else if(!hasNext() && (((L2Array) l1Array[loc.level1Index]).items[loc.level2Index] != null)){
+            else if(!hasNext() && (((L2Array) l1Array[loc.level1Index]).items[loc.level2Index+1] != null)){
                 return ((L2Array) l1Array[loc.level1Index]).items[loc.level2Index+1];
             }
             else{
